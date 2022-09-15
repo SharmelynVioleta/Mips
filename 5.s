@@ -3,7 +3,7 @@
     msg2: .asciiz "\nNo tienes que cotizar "
     msg3: .asciiz "\nTienes que cotizar"
     msg4: .asciiz "\n¿Cuales son tus ingresos mensuales?"
-    valor1: .word 9999
+    income: .word 9999
 
 .text
 main:
@@ -17,34 +17,34 @@ main:
     syscall
     move $t0,$v0
     
-    # $s1 = 0 + 16 = 16
-    addi $s1, $zero, 16
+    # $s1 = 0 + 17 = 17
+    addi $s1, $zero, 17
  
-    # si el dato imgresado es mayor  
-    slt $t1, $t0, $s1
-   
     li $v0,4   # print_str
     la $a0,msg4
     syscall 
+  
 
     li $v0,5
     syscall
     move $t2,$v0
 
     # Carga en memoria  el valor
-    lw $t3,valor1 
+    lw $t3,income 
 
     # si es falso vamos al Else
-    bge $t2,$t0,Tipo5
-    beq $t1, $0, Else
-        li $v0,4
-        la $a0,msg2
-        syscall
-        j Endif
+    bge $t0,$s1,if
+    j Else 
     # si es verdadero imprime Tienes que cotizar
-    Else:
+    If:
+        bge $t3,$t2,Else
         li $v0,4
         la $a0,msg3
+        syscall
+        j Endif
+     Else:
+        li $v0,4
+        la $a0,msg2
         syscall
     Endif:
 

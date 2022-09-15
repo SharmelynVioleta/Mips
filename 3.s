@@ -5,8 +5,10 @@
     msg2: .asciiz "\nIngrese otro numero: "    
     msg3: .asciiz "\nLa division es: "
     msg4: .asciiz "\nError: "
+    zeroFloat: .float 0.0
 
 .text
+    lwc1 $f4, zeroFloat
 
     # imprimimos el primer mensaje
     main:
@@ -30,21 +32,22 @@
     mov.s $f2, $f0
 
  # comparamos si f2 es 0
-beq $f2, $0, Else 
+    c.eq.s $f2,$f4
+    bc1t Else
     
-    j Else
-
+ 
     div.s $f12, $f1, $f2
 
     li $v0,4
     la $a0,msg3
     syscall
-    j Endif
     
     # imprimir float
     li $v0,2
     syscall
     
+    j Endif
+
 Else:
     # imprimimos     
     li $v0,4
