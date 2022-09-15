@@ -3,7 +3,7 @@
     msg2: .asciiz "\nNo tienes que cotizar "
     msg3: .asciiz "\nTienes que cotizar"
     msg4: .asciiz "\n¿Cuales son tus ingresos mensuales?"
-    income: .word 9999
+    income: .word 999
 
 .text
 main:
@@ -12,13 +12,13 @@ main:
     la $a0,msg1
     syscall 
 
-    # recibimos el ingreso del usuario en $t1
+    # recibimos el ingreso del usuario en $t0
     li $v0,5
     syscall
     move $t0,$v0
     
     # $s1 = 0 + 17 = 17
-    addi $s1, $zero, 17
+    add $s1, $zero, 17
  
     li $v0,4   # print_str
     la $a0,msg4
@@ -33,7 +33,7 @@ main:
     lw $t3,income 
 
     # si es falso vamos al Else
-    bge $t0,$s1,if
+    bge $t0,$s1,If
     j Else 
     # si es verdadero imprime Tienes que cotizar
     If:
